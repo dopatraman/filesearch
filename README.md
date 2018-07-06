@@ -96,4 +96,5 @@ permissions.
 
 When the file is found, its encrypted using the public key sent by the user.
 When the file is finally returned to the user it needs to be verified. One way
-to do this is to decrypt the file and the compare 
+to do this is to decrypt the file, hash it, and compared the output hash to the
+input hash. More consideration needs to be put in here.
