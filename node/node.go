@@ -16,6 +16,7 @@ type FileSearchNode struct {
 	mux sync.Mutex
 	client.FileSearchClient
 	server.FileSearchServer
+	neighbors     []string
 	searchCache   map[string]chan interface{}
 	senderCache   map[string]chan *bytes.Buffer
 	responseCache map[string]chan *bytes.Buffer

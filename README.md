@@ -15,12 +15,17 @@ the other to receive responses.
 
 For a node to join a network it must first connect to an existing node and
 authenticate. Once a node has successfully connected to a node, its target node
-will form a connection in return.
+will form a connection in return. Successful connections result in a node's
+address added to its `neighboringNodes` array.
 
 When a node receives a search message, it saves the sender's address along with
 a channel that's used to stop the search. The node then forwards the search
 request to all neighboring nodes while kicking off a search of its own file
-system.
+system. Before a node begins searching its own file system, it adds an entry to
+its `searchCache` so searches for the same file will not happen twice. The
+`searchCache` contains a channel that can be used to stop the search if needed
+(This is WIP because the project uses Go's builtin `WalkDir` function, which
+[does not utilize goroutines](https://golang.org/src/path/filepath/path.go?s=12067:12112#L388).)
 
 If the file is found, the node that finds encrypts the file with the public key
 and sends a RelayMessage to the node that requested the search. If a node
@@ -74,6 +79,13 @@ enum or worse, a string comparison, to decide what handler method to call.
 The hash function to use is still up in the air. For testing I've been using
 SHA256 hash function, but im not clear on the advantages of this hash function
 vs others (apart from it using a 256 bit signature).
+
+The first version of the project used Google's
+[SPDY](https://www.chromium.org/spdy/spdy-whitepaper) protocol as transport
+between nodes. The protocol's focus on low latency, multiple streams over a
+single connection seemed a natural fit with Go's focus on concurrency. But the
+protocol proved too experimental to use. The fallback was TCP, which I moved
+past in favor of HTTP, given the message-passing nature of this project.
 
 All node activity happens over HTTP. Nodes should authenticate with each other
 before successfully connecting, ideally even before messages are sent.
