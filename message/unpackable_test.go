@@ -7,14 +7,14 @@ import (
 
 func TestUnpack(t *testing.T) {
 	t.Run("Should unpack a", func(t *testing.T) {
-		var u UnpackableMessage
+		var u *UnpackableMessage
 		t.Run("Search message", func(t *testing.T) {
-			var m SearchMessage
-			m = SearchMessage{
+			var m *SearchMessage
+			m = &SearchMessage{
 				FileHash: "wefnwlefnwe",
 			}
 			mJson, _ := json.Marshal(m)
-			u = UnpackableMessage{
+			u = &UnpackableMessage{
 				Data: mJson,
 			}
 			newM := u.Unpack()

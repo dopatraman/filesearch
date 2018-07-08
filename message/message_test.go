@@ -8,7 +8,7 @@ import (
 )
 
 func TestSerialize(t *testing.T) {
-	t.Run("Should serialize a", func (t *testing.T) {
+	t.Run("Should serialize a", func(t *testing.T) {
 		t.Run("n unpackable message", func(t *testing.T) {
 			var u *UnpackableMessage
 			u = &UnpackableMessage{
@@ -20,7 +20,7 @@ func TestSerialize(t *testing.T) {
 				t.Error(fmt.Sprintf("Expected %v to be json", packed.Data))
 			}
 			testvalue, _ := json.Marshal(u)
-			if (!reflect.DeepEqual(testvalue, packed.Data)) {
+			if !reflect.DeepEqual(testvalue, packed.Data) {
 				t.Error(fmt.Sprintf("Expected %v to be %v", testvalue, packed.Data))
 			}
 		})
@@ -28,6 +28,6 @@ func TestSerialize(t *testing.T) {
 }
 
 func isJSONByteArray(b []byte) bool {
-    var js interface{}
-    return json.Unmarshal(b, &js) == nil
+	var js interface{}
+	return json.Unmarshal(b, &js) == nil
 }

@@ -13,7 +13,7 @@ func TestListen(t *testing.T) {
 		go request()
 		v := <-ch
 		if v.String() != "Hello" {
-			t.Error("dfd")
+			t.Error("Request not received properly")
 		}
 	})
 }
