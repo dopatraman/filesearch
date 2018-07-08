@@ -1,6 +1,7 @@
 package message
 
 import (
+	"fmt"
 	"reflect"
 )
 
@@ -14,5 +15,5 @@ func (s *SearchMessage) MessageType() reflect.Type {
 }
 
 func (s *SearchMessage) String() string {
-	return ""
+	return fmt.Sprintf("{FileHash: %v, SenderAddress: %v}", s.FileHash, s.SenderAddress)
 }

@@ -2,6 +2,7 @@ package message
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"reflect"
 )
@@ -20,32 +21,32 @@ func (u *UnpackableMessage) Unpack() NodeMessage {
 		return nil
 	}
 	// check search
-	var s *SearchMessage
-	err := json.Unmarshal(u.Data, s)
+	var s SearchMessage
+	err := json.Unmarshal(u.Data, &s)
 	if err == nil {
-		return s
+		return &s
 	}
 	// check relay
-	var r *RelayMessage
-	err = json.Unmarshal(u.Data, r)
+	var r RelayMessage
+	err = json.Unmarshal(u.Data, &r)
 	if err == nil {
-		return r
+		return &r
 	}
 	// check confirmation
-	var c *ConfirmationMessage
-	err = json.Unmarshal(u.Data, c)
+	var c ConfirmationMessage
+	err = json.Unmarshal(u.Data, &c)
 	if err == nil {
-		return c
+		return &c
 	}
 	// check ping
-	var v *PingMessage
-	err = json.Unmarshal(u.Data, v)
+	var v PingMessage
+	err = json.Unmarshal(u.Data, &v)
 	if err == nil {
-		return v
+		return &v
 	}
 	panic("Unhandled message")
 }
 
 func (u *UnpackableMessage) String() string {
-	return string(u.Data)
+	return fmt.Sprintf("Data: %v", u.Data)
 }
